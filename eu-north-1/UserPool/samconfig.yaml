@@ -1,0 +1,19 @@
+version: 0.1
+prod:
+  global:
+    parameters:
+      stack_name: serverless-auth-user-pool
+      region: eu-north-1
+      confirm_changeset: false
+      capabilities: CAPABILITY_NAMED_IAM
+      s3_prefix: prod-content-blog-infra
+      s3_bucket: jimmydqv-playground-sam-deployment-eu-north-1
+  deploy:
+    parameters:
+      parameter_overrides:
+        - Environment=prod
+        - DomainName=content.playground.jimmydqv.com
+        - BucketNameSuffix=content
+        - ApplicationName=serverless-auth
+        - HostedAuthDomainPrefix=serverlessauth
+        - UserPoolSecretName=prod/serverlessAuth/UserPoolClient
