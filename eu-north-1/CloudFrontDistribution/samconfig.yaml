@@ -2,23 +2,23 @@ version: 0.1
 prod:
   global:
     parameters:
-      stack_name: prod-content-blog-infra
+      stack_name: serverless-auth-infra
       region: eu-north-1
       confirm_changeset: false
       capabilities: CAPABILITY_NAMED_IAM
-      s3_prefix: prod-content-blog-infra
-      s3_bucket: jimmydqv-playground-sam-deployment-eu-north-1
+      s3_prefix: serverless-auth-user-pool
+      resolve_s3: true
   deploy:
     parameters:
       parameter_overrides:
-        - Environment=prod
+        - Environment=
         - ApplicationName=serverless-auth
-        - DomainName=content.playground.jimmydqv.com
-        - HostedZoneId=Z07862571I40FP1T8A0P1
-        - BucketNameSuffix=content
-        - SSLCertificateArn=arn:aws:acm:us-east-1:243868321634:certificate/3d630a2a-2840-4960-8c68-d749ff8423e5
-        - SignInFunctionArn=arn:aws:lambda:us-east-1:243868321634:function:serverless-auth-lambda-edge-HandleSignInFunction-aUQzpoKgsAfq:6
-        - SignOutFunctionArn=arn:aws:lambda:us-east-1:243868321634:function:serverless-auth-lambda-edge-SignOutFunction-70LDWBb9uKIG:4
-        - AuthorizeFunctionArn=arn:aws:lambda:us-east-1:243868321634:function:serverless-auth-lambda-edge-AuthorizeFunction-DRmaCe8ru7lM:3
-        - RefreshFunctionArn=arn:aws:lambda:us-east-1:243868321634:function:serverless-auth-lambda-edge-RefreshFunction-dHJVN1llpua2:5
-        - IndexPathFunctionArn=arn:aws:lambda:us-east-1:243868321634:function:serverless-auth-lambda-edge-IndexPathFunction-Hs98OeV99818:1
+        - DomainName=
+        - HostedZoneId=
+        - BucketNameSuffix=
+        - SSLCertificateArn=
+        - SignInFunctionArn=
+        - SignOutFunctionArn=
+        - AuthorizeFunctionArn=
+        - RefreshFunctionArn=
+        - IndexPathFunctionArn=

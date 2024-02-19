@@ -7,17 +7,17 @@ prod:
       confirm_changeset: false
       capabilities: CAPABILITY_NAMED_IAM
       s3_prefix: serverless-auth-lambda-edge
-      s3_bucket: jimmydqv-playground-sam-deployment-us-east-1
+      resolve_s3: true
   deploy:
     parameters:
       parameter_overrides:
-        - Environment=prod
-        - ApplicationName=serverless-auth
-        - DomainName=content.playground.jimmydqv.com
-        - HostedZoneId=Z07862571I40FP1T8A0P1
-        - SecretArn=arn:aws:secretsmanager:eu-north-1:243868321634:secret:prod/serverlessAuth/UserPoolClient-aDpHPT
-        - SecretName=prod/serverlessAuth/UserPoolClient
-        - UserPoolId=eu-north-1_WGrnQLdRl
-        - UserPoolHostedUiUrl=https://serverlessauth.auth.eu-north-1.amazoncognito.com/login?client_id=5c4amu92afapuuqat5ouaqfb12&response_type=code&scope=email+openid+phone+profile&redirect_uri=https://content.playground.jimmydqv.com/signin
-        - UserPoolOauthEndpoint=https://serverlessauth.auth.eu-north-1.amazoncognito.com/oauth2/token
-        - SsmParametersArn=arn:aws:ssm:eu-north-1:243868321634:parameter/prod/serverlessAuth/*
+        - Environment=
+        - ApplicationName=
+        - DomainName=
+        - HostedZoneId=
+        - SecretArn=
+        - SecretName=
+        - UserPoolId=
+        - UserPoolHostedUiUrl=
+        - UserPoolOauthEndpoint=
+        - SsmParametersArn=

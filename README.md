@@ -15,4 +15,3 @@ To deploy the solution you need to do the following steps in order, deployment r
 * Deploy the Cloudformation template /eu-north-1/UserPool/template.yaml
 * Deploy the Cloudformation template /us-east-1/EdgeLambda/template.yaml
 * Deploy the Cloudformation template /eu-north-1/CloudFrontDistribution/template.yaml
-
