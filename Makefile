@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-sources = sdk tests lambdas
+sources = sdk tests app
 
 .uv:
 	@uv -V || echo 'Please install uv: https://docs.astral.sh/uv/getting-started/installation/'

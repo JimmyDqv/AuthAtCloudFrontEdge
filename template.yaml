@@ -12,7 +12,7 @@ Metadata:
     LicenseUrl: LICENSE
     Labels: ["oauth2"]
     HomePageUrl: https://github.com/Ada-Mode-Atom/Atom-Auth-at-Edge-App
-    SemanticVersion: 1.2.0
+    SemanticVersion: 2.0.0
     SourceCodeUrl: https://github.com/Ada-Mode-Atom/Atom-Auth-at-Edge-App
 
 Parameters:
@@ -24,7 +24,7 @@ Parameters:
 
   DiscoveryDocument:
     Type: String
-    Description: Oauth2 openid discovery document endpoints such as `https://cognito-idp.___.amazonaws.com/___/.well-known/openid-configuration`
+    Description: Oauth2 openid discovery document endpoints such as `https://login.microsoftonline.com/<TENANT_ID>/v2.0/.well-known/openid-configuration`
 
   Oauth2RedirectPath:
     Type: String
@@ -37,12 +37,26 @@ Parameters:
 
   Scope:
     Type: String
-    Description: Oauth2 Client Id configured with the provided auth scope
-    Default: openid email profile phone offline_access
+    Description: OpenID Connect scopes requested from Microsoft Entra
+    Default: openid profile email
+
+  ClientSecret:
+    Type: String
+    NoEcho: true
+    Description: Microsoft Entra application client secret
+
+  PublicUrl:
+    Type: String
+    Description: Public URL of the CloudFront site, without trailing slash
+
+  SessionSecret:
+    Type: String
+    NoEcho: true
+    Description: Secret used to sign authentication session cookies
 
 Globals:
   Function:
-    Timeout: 5
+    Timeout: 20
     MemorySize: 128
     Runtime: python3.12
 
@@ -79,12 +93,36 @@ Resources:
       Value: !Ref Scope
       Description: SSM Parameter for the Oauth2 Scopes
 
+  ClientSecretParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub /${StackName}/auth/client_secret
+      Type: String
+      Value: !Ref ClientSecret
+      Description: Microsoft Entra client secret
+
+  PublicUrlParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub /${StackName}/auth/public_url
+      Type: String
+      Value: !Ref PublicUrl
+      Description: Public URL of the documentation site
+
+  SessionSecretParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub /${StackName}/auth/session_secret
+      Type: String
+      Value: !Ref SessionSecret
+      Description: Session cookie signing secret
+
   CallbackFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub auth-callback-${StackName}
-      AutoPublishAlias: "true"
-      CodeUri: ./lambdas/auth
+      AutoPublishAlias: live
+      CodeUri: ./app/auth
       Handler: main.callback_handler
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -116,8 +154,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub auth-handler-${StackName}
-      AutoPublishAlias: "true"
-      CodeUri: ./lambdas/auth
+      AutoPublishAlias: live
+      CodeUri: ./app/auth
       Handler: main.auth_handler
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -149,8 +187,8 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub rewrite-index-handler-${StackName}
-      AutoPublishAlias: "true"
-      CodeUri: ./lambdas/rewrite
+      AutoPublishAlias: live
+      CodeUri: ./app/rewrite
       Handler: main.handler
       AssumeRolePolicyDocument:
         Version: 2012-10-17
