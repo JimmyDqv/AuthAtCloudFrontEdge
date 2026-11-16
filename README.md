@@ -56,13 +56,8 @@ Build, package and publish the application:
 ```bash
 uv run sam build
 
-uv run sam package \
-  --output-template-file .aws-sam/packaged.yaml \
-  --s3-bucket ada-mode-atom
-
-uv run sam publish \
-  --template .aws-sam/packaged.yaml \
-  --region us-east-1
+uv run sam package --output-template-file .aws-sam/packaged.yaml --s3-bucket ada-mode-atom
+uv run sam publish --template .aws-sam/packaged.yaml --region us-east-1
 ```
 
 Publishing creates a new version in the Serverless Application Repository. **It does not automatically update existing deployed instances or their CloudFront integrations.**
